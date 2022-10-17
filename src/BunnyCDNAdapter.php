@@ -125,7 +125,7 @@ class BunnyCDNAdapter implements FilesystemAdapter
             $entries = $this->client->list($path);
             // @codeCoverageIgnoreStart
         } catch (Exceptions\BunnyCDNException $e) {
-            throw UnableToRetrieveMetadata::create($path, 'folder', $e->getResponse()->getBody()->getContents());
+            throw UnableToRetrieveMetadata::create($path, 'folder', $e->getMessage());
         }
         // @codeCoverageIgnoreEnd
 
