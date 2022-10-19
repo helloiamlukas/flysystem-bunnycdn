@@ -28,7 +28,8 @@ class BunnyCDNClient
 
         $stack = HandlerStack::create();
         $stack->push(GuzzleRetryMiddleware::factory([
-            'retry_on_timeout' => true
+            'retry_on_timeout' => true,
+            'max_retry_attempts' => 5
         ]));
         $this->client = new Guzzle(['handler' => $stack]);
     }
