@@ -3,6 +3,8 @@
 namespace PlatformCommunity\Flysystem\BunnyCDN;
 
 use GuzzleHttp\Client as Guzzle;
+use GuzzleHttp\HandlerStack;
+use GuzzleRetry\GuzzleRetryMiddleware;
 use GuzzleHttp\Exception\GuzzleException;
 use PlatformCommunity\Flysystem\BunnyCDN\Exceptions\BunnyCDNException;
 use PlatformCommunity\Flysystem\BunnyCDN\Exceptions\DirectoryNotEmptyException;
@@ -24,7 +26,11 @@ class BunnyCDNClient
         $this->api_key = $api_key;
         $this->region = $region;
 
-        $this->client = new Guzzle();
+        $stack = HandlerStack::create();
+        $stack->push(GuzzleRetryMiddleware::factory([
+            'retry_on_timeout' => true
+        ]));
+        $this->client = new Guzzle(['handler' => $stack]);
     }
 
     private static function get_base_url($region): string
@@ -70,7 +76,7 @@ class BunnyCDNClient
     public function list(string $path): array
     {
         try {
-            $listing = $this->request(Util::normalizePath($path).'/', 'GET', ['timeout' => 5]);
+            $listing = $this->request(Util::normalizePath($path).'/', 'GET', ['timeout' => 2]);
 
             // Throw an exception if we don't get back an array
             if (! is_array($listing)) {
