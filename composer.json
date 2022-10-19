@@ -12,7 +12,8 @@
         "league/flysystem": "^3.0",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.4",
-        "league/mime-type-detection": "^1.11"
+        "league/mime-type-detection": "^1.11",
+        "caseyamcl/guzzle_retry_middleware": "^2.7.1"
     },
     "require-dev": {
         "phpunit/phpunit": "@stable",
@@ -21,7 +22,6 @@
         "league/flysystem-memory": "^3.0",
         "fzaninotto/faker": "^1.5",
         "laravel/pint": "^0.2.3",
-        "caseyamcl/guzzle_retry_middleware": "^2.7.1"
     },
     "autoload-dev": {
         "psr-4": {
