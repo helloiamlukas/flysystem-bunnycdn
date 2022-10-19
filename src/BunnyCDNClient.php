@@ -70,7 +70,7 @@ class BunnyCDNClient
     public function list(string $path): array
     {
         try {
-            $listing = $this->request(Util::normalizePath($path).'/');
+            $listing = $this->request(Util::normalizePath($path).'/', 'GET', ['timeout' => 5]);
 
             // Throw an exception if we don't get back an array
             if (! is_array($listing)) {
