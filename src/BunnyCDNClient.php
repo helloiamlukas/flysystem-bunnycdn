@@ -29,7 +29,7 @@ class BunnyCDNClient
         $stack = HandlerStack::create();
         $stack->push(GuzzleRetryMiddleware::factory([
             'retry_on_timeout' => true,
-            'max_retry_attempts' => 5
+            'max_retry_attempts' => 2
         ]));
         $this->client = new Guzzle(['handler' => $stack]);
     }
@@ -77,7 +77,7 @@ class BunnyCDNClient
     public function list(string $path): array
     {
         try {
-            $listing = $this->request(Util::normalizePath($path).'/', 'GET', ['timeout' => 2]);
+            $listing = $this->request(Util::normalizePath($path).'/', 'GET', ['timeout' => 5]);
 
             // Throw an exception if we don't get back an array
             if (! is_array($listing)) {
