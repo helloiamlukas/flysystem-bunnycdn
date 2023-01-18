@@ -99,15 +99,23 @@ class BunnyCDNClient
 
     /**
      * @param  string  $path
+     * @param  string  $pullzone_url
      * @return mixed
      *
      * @throws BunnyCDNException
      * @throws NotFoundException
      */
-    public function download(string $path): string
+    public function download(string $path, string $pullzone_url): string
     {
         try {
-            return $this->request($path.'?download');
+            $response = $this->client->request(
+                'GET',
+                $pullzone_url . substr($path, strpos($path, "/") + 1),
+            );
+
+            $contents = $response->getBody()->getContents();
+
+            return json_decode($contents, true) ?? $contents;
             // @codeCoverageIgnoreStart
         } catch (GuzzleException $e) {
             throw match ($e->getCode()) {

@@ -104,7 +104,7 @@ class BunnyCDNAdapter implements FilesystemAdapter
         $path = $this->prependPrefix($path);
 
         try {
-            return $this->client->download($path);
+            return $this->client->download($path, $this->pullzone_url);
             // @codeCoverageIgnoreStart
         } catch (Exceptions\BunnyCDNException $e) {
             throw UnableToReadFile::fromLocation($path, $e->getMessage());
